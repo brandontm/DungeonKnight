@@ -46,7 +46,7 @@ public class Board extends JPanel implements ActionListener {
     private final int BLOCK_SIZE = 24;
     private final int N_BLOCKS = 15;
     private final int SCREEN_SIZE = N_BLOCKS * BLOCK_SIZE;
-    private final int MAX_GHOSTS = 4; // TODO: Aumentar la cantidad de fantasmas
+    private final int MAX_GHOSTS = 2; // TODO: Aumentar la cantidad de fantasmas
     private final int PACMAN_SPEED = 6;
 
     private int superPacmanCount = 0;
@@ -63,11 +63,12 @@ public class Board extends JPanel implements ActionListener {
     //private int pacmanAnimPoints = 0;
     //private int ghostsAnimPos = 0; // Para animar los fantasmas
 
-    private int N_GHOSTS = 4;
+    private int N_GHOSTS = 2;
     private int score;
     private int[] dx, dy;
     private Pacman pacman;
     private ArrayList <Fantasma> fantasmas = new ArrayList<>(); // array list para crear los objetos Fantasma
+    private Mago mago;
     private int acumPointsEat = 0;
     private int whatEatGhost = -1;
     private int levelnum = 1;
@@ -218,28 +219,29 @@ public class Board extends JPanel implements ActionListener {
         d = new Dimension(400, 400); // esta variable solamente se usa para crear un rectangulo negro
         //region Inicializar Pacman
         pacman = new Pacman(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT), this, "Pacman");
+        mago= new Mago(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT),this, "Mago");
         //endregion
 
         //region Inicializar fantasmas
         // Cargar las 2 imagenes que pertenecen a cada fantasma a la animacion
-        Animation animations[] = new Animation[4];
-        for(int i = 0; i < 4; i++ ) animations[i] = new Animation(new Image[2], 5);
-        int arrPos = 0;
-
-        for(GhostType ghost : GhostType.values()) {
-            Image gImages[] = animations[arrPos].getImages();
-            String name = ghost.name().toLowerCase();
-            gImages[0] = new ImageIcon("images/" + name + " v1.png").getImage();
-            gImages[1] = new ImageIcon("images/" + name + " v2.png").getImage();
-
-            animations[arrPos++].setImages(gImages);
-        }
+//        Animation animations[] = new Animation[4];
+//        for(int i = 0; i < 4; i++ ) animations[i] = new Animation(new Image[2], 5);
+//        int arrPos = 0;
+//
+//        for(GhostType ghost : GhostType.values()) {
+//            Image gImages[] = animations[arrPos].getImages();
+//            String name = ghost.name().toLowerCase();
+//            gImages[0] = new ImageIcon("images/" + name + " v1.png").getImage();
+//            gImages[1] = new ImageIcon("images/" + name + " v2.png").getImage();
+//
+//            animations[arrPos++].setImages(gImages);
+//        }
 
         // aquí se agregan los objetos fantasma al array list
-        fantasmas.add(new Fantasma(new Animation(AnimationEnum.CLYDE_NORMAL_RIGHT),this,"Clyde"));
-        fantasmas.add(new Fantasma(new Animation(AnimationEnum.BLINKY_NORMAL_RIGHT),this,"Blinky"));
-        fantasmas.add(new Fantasma(new Animation(AnimationEnum.INKY_NORMAL_RIGHT),this,"Inky"));
-        fantasmas.add(new Fantasma(new Animation(AnimationEnum.PINKY_NORMAL_RIGHT),this,"Pinky"));
+        fantasmas.add(new Fantasma(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT),this,"Mago1"));
+        fantasmas.add(new Fantasma(new Animation(AnimationEnum.MAGO_NORMAL_LEFT),this,"Mago2"));
+        
+        
         //endregion
 
 
@@ -386,8 +388,8 @@ public class Board extends JPanel implements ActionListener {
         int currentDirX = -1;
         fantasmas.get(0).update();
         fantasmas.get(1).update();
-        fantasmas.get(2).update();
-        fantasmas.get(3).update();
+//        fantasmas.get(2).update();
+//        fantasmas.get(3).update();
 
         for (i = 0; i < N_GHOSTS; i++) {
             if (fantasmas.get(i).getPosx() % BLOCK_SIZE == 0 && fantasmas.get(i).getPosy() % BLOCK_SIZE == 0) {
@@ -488,34 +490,34 @@ public class Board extends JPanel implements ActionListener {
                 if (fantasmas.get(i).getDirx() == -1) {  // Si la dirección es IZQ
                     switch (i) {
                         case 0:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.CLYDE_NORMAL_LEFT));
+                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.MAGO_NORMAL_LEFT));
                             break;
                         case 1:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.BLINKY_NORMAL_LEFT));
+                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.MAGO_NORMAL_LEFT));
                             break;
-                        case 2:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.INKY_NORMAL_LEFT));
-                            break;
-                        case 3:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.PINKY_NORMAL_LEFT));
-                            break;
+//                        case 2:
+//                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.INKY_NORMAL_LEFT));
+//                            break;
+//                        case 3:
+//                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.PINKY_NORMAL_LEFT));
+//                            break;
                     }
 
                 } else {
                     // si no es DER 
                     switch (i) {
                         case 0:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.CLYDE_NORMAL_RIGHT));
+                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT));
                             break;
                         case 1:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.BLINKY_NORMAL_RIGHT));
+                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT));
                             break;
-                        case 2:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.INKY_NORMAL_RIGHT));
-                            break;
-                        case 3:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.PINKY_NORMAL_RIGHT));
-                            break;
+//                        case 2:
+//                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.INKY_NORMAL_RIGHT));
+//                            break;
+//                        case 3:
+//                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.PINKY_NORMAL_RIGHT));
+//                            break;
                     }
 
                 }
@@ -717,9 +719,10 @@ public class Board extends JPanel implements ActionListener {
 
                 // Dibuja el cuadro de poder de super pacman
                 if ((screenData[i] & 32) != 0) {
-                    g2d.setColor(dotColor);
-                    g2d.fillRect(x + 5, y + 5, 8, 8);
+                    g2d.drawImage(AnimationEnum.HADA.getImages()[0], x + 3 , y + 3 , this);
                 }
+                
+                
 
                 i++;
             }
@@ -730,7 +733,7 @@ public class Board extends JPanel implements ActionListener {
         pacman.setHealth(3);
         score = 0;
         initLevel();
-        N_GHOSTS = 4;
+        N_GHOSTS = 2;
         currentSpeed = 3;
     }
 

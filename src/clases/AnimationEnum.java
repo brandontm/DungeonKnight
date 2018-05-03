@@ -37,6 +37,21 @@ public enum AnimationEnum {
             new ImageIcon("images/Personaje(DieRight4).png").getImage(),
             new ImageIcon("images/Personaje(DieRight5).png").getImage(),
             new ImageIcon("images/Personaje(DieRight6).png").getImage()}, 1, false),
+    
+    MAGO_NORMAL_RIGHT(new Image[]{
+            new ImageIcon("images/mright1.png").getImage(),
+            new ImageIcon("images/mright2.png").getImage(),
+            new ImageIcon("images/mright3.png").getImage()}, 1, true),
+    
+    MAGO_NORMAL_LEFT(new Image[]{
+            new ImageIcon("images/mleft1.png").getImage(),
+            new ImageIcon("images/mleft2.png").getImage(),
+            new ImageIcon("images/mleft3.png").getImage()}, 1, true),
+    MAGO_NORMAL_DOWN(new Image[]{
+            new ImageIcon("images/mfront.png").getImage()}, 1, true),
+    MAGO_NORMAL_UP(new Image[]{
+            new ImageIcon("images/mdown.png").getImage()}, 1, true),
+    
 
     CLYDE_NORMAL_LEFT(new Image[]{
             new ImageIcon("images/clyde v3.png").getImage(),
@@ -64,7 +79,13 @@ public enum AnimationEnum {
             new ImageIcon("images/pinky v4.png").getImage()}, 4, true),
     PINKY_NORMAL_RIGHT(new Image[]{
             new ImageIcon("images/pinky v1.png").getImage(),
-            new ImageIcon("images/pinky v2.png").getImage()}, 4, true);
+            new ImageIcon("images/pinky v2.png").getImage()}, 4, true),
+    
+    HADA(new Image[]{
+            new ImageIcon("images/hada1.png").getImage()
+            }, 4, true);
+    
+    
 
     private Image[] images;
     private final int delay;
