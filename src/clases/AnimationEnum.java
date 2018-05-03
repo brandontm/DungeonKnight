@@ -4,39 +4,39 @@ import javax.swing.*;
 import java.awt.*;
 
 public enum AnimationEnum {
-    PACMAN_IDLE(new Image[]{new ImageIcon("images/pacman.png").getImage()}, 1, true),
+    PACMAN_IDLE(new Image[]{new ImageIcon("images/Personaje (Right).png").getImage()}, 1, true),
 
     PACMAN_NORMAL_UP(new Image[]{
-            new ImageIcon("images/pacman.png").getImage(),
-            new ImageIcon("images/up1.png").getImage(),
-            new ImageIcon("images/up2.png").getImage(),
-            new ImageIcon("images/up3.png").getImage()}, 1, true),
+            new ImageIcon("images/Personaje(Walking1Right).png").getImage(),
+            new ImageIcon("images/Personaje(Walking1Right).png").getImage(),
+            new ImageIcon("images/Personaje(Walking2Right).png").getImage(),
+            new ImageIcon("images/Personaje(Walking2Right).png").getImage()}, 1, true),
 
     PACMAN_NORMAL_RIGHT(new Image[]{
-            new ImageIcon("images/pacman.png").getImage(),
-            new ImageIcon("images/right1.png").getImage(),
-            new ImageIcon("images/right2.png").getImage(),
-            new ImageIcon("images/right3.png").getImage()}, 1, true),
+            new ImageIcon("images/Personaje(Walking1Right).png").getImage(),
+            new ImageIcon("images/Personaje(Walking1Right).png").getImage(),
+            new ImageIcon("images/Personaje(Walking2Right).png").getImage(),
+            new ImageIcon("images/Personaje(Walking2Right).png").getImage()}, 1, true),
 
     PACMAN_NORMAL_DOWN(new Image[]{
-            new ImageIcon("images/pacman.png").getImage(),
-            new ImageIcon("images/down1.png").getImage(),
-            new ImageIcon("images/down2.png").getImage(),
-            new ImageIcon("images/down3.png").getImage()}, 1, true),
+            new ImageIcon("images/Personaje (Walking1Left).png").getImage(),
+            new ImageIcon("images/Personaje (Walking1Left).png").getImage(),
+            new ImageIcon("images/Personaje (Walking2Left).png").getImage(),
+            new ImageIcon("images/Personaje (Walking2Left).png").getImage()}, 1, true),
 
     PACMAN_NORMAL_LEFT(new Image[]{
-            new ImageIcon("images/pacman.png").getImage(),
-            new ImageIcon("images/left1.png").getImage(),
-            new ImageIcon("images/left2.png").getImage(),
-            new ImageIcon("images/left3.png").getImage()}, 1, true),
+            new ImageIcon("images/Personaje (Walking1Left).png").getImage(),
+            new ImageIcon("images/Personaje (Walking1Left).png").getImage(),
+            new ImageIcon("images/Personaje (Walking2Left).png").getImage(),
+            new ImageIcon("images/Personaje (Walking2Left).png").getImage()}, 1, true),
 
     PACMAN_DIE(new Image[]{
-            new ImageIcon("images/leftdie1.png").getImage(),
-            new ImageIcon("images/leftdie2.png").getImage(),
-            new ImageIcon("images/leftdie3.png").getImage(),
-            new ImageIcon("images/leftdie4.png").getImage(),
-            new ImageIcon("images/leftdie5.png").getImage(),
-            new ImageIcon("images/leftdie6.png").getImage()}, 1, false),
+            new ImageIcon("images/Personaje(DieRight1).png").getImage(),
+            new ImageIcon("images/Personaje(DieRight2).png").getImage(),
+            new ImageIcon("images/Personaje(DieRight3).png").getImage(),
+            new ImageIcon("images/Personaje(DieRight4).png").getImage(),
+            new ImageIcon("images/Personaje(DieRight5).png").getImage(),
+            new ImageIcon("images/Personaje(DieRight6).png").getImage()}, 1, false),
 
     CLYDE_NORMAL_LEFT(new Image[]{
             new ImageIcon("images/clyde v3.png").getImage(),
