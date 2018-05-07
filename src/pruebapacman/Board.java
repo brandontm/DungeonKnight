@@ -272,7 +272,7 @@ public class Board extends JPanel implements ActionListener {
         if (dying) {
 
             if (pacman.getCurrentAnimation().getCurrentFrame() == 0){
-                Sound.SIREN.stop();
+                Sound.FONDO.stop();
                 timer.stop();
                 try {
                     Thread.sleep(1000);
@@ -294,7 +294,7 @@ public class Board extends JPanel implements ActionListener {
                     Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 timer.start();
-                Sound.SIREN.loop();
+                
             }
         } else {
             if (whatEatGhost == -1){
@@ -375,7 +375,7 @@ public class Board extends JPanel implements ActionListener {
         pacman.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT));
         if (pacman.getHealth() == 0) {
             inGame = false;
-            Sound.SIREN.stop();
+            Sound.FONDO.stop();
         }
 
         continueLevel();
@@ -423,7 +423,7 @@ public class Board extends JPanel implements ActionListener {
                     if (superPacmanCount > 50){
                         eatingGhost = false;
                         superPacmanCount = 0;
-                        Sound.GHOST_SCARED.stop();
+//                        Sound.GHOST_SCARED.stop();
                     }
 
                 } else {
@@ -541,11 +541,11 @@ public class Board extends JPanel implements ActionListener {
                     && pacman.getPosy() > (fantasmas.get(i).getPosy() - 12) && pacman.getPosy() < (fantasmas.get(i).getPosy() + 12)
                     && inGame && eatingGhost == true && fantasmas.get(i).getEating() == false ) {
 
-                Sound.GHOST_SCARED.stop();
+//                Sound.GHOST_SCARED.stop();
                 Sound.GHOST_EATEN.play();
                 whatEatGhost = i;
                 fantasmas.get(i).setEating(true);
-                Sound.GHOST_SCARED.loop();
+//                Sound.GHOST_SCARED.loop();
                 score = score + acumPointsEat;
                 fantasmas.get(i).setVisible(false);
             }
@@ -596,7 +596,7 @@ public class Board extends JPanel implements ActionListener {
             if ((ch & 16) != 0) {
                 screenData[pos] = (short) (ch & 15);
                 score++;
-                Sound.PACMAN_MUNCH.play();
+//                Sound.PACMAN_MUNCH.play();
             }
             // si se come el cuadro de super poder
             if ((ch & 32) != 0) {
@@ -605,7 +605,7 @@ public class Board extends JPanel implements ActionListener {
                 superPacmanCount = 0;
                 eatingGhost = true;
                 acumPointsEat = 200;
-                Sound.GHOST_SCARED.loop();
+                Sound.HADA.play();
             }
 
             if (req_dx != 0 || req_dy != 0) {
@@ -673,7 +673,7 @@ public class Board extends JPanel implements ActionListener {
                 fantasmas.get(whatEatGhost).setVisible(true);
                 whatEatGhost = -1;
                 acumPointsEat = acumPointsEat + POINTS_EAT_GHOST;
-                Sound.GHOST_SCARED.loop();
+                Sound.HADA.play();
             }
             
           
@@ -796,7 +796,7 @@ public class Board extends JPanel implements ActionListener {
         dying = false;
         eatingGhost = false; // indica si pacman puede comer fantasmas
         superPacmanCount = 0;
-        Sound.GHOST_SCARED.stop();
+//        Sound.GHOST_SCARED.stop();
     }
 
     private void loadImages() {
@@ -824,7 +824,7 @@ public class Board extends JPanel implements ActionListener {
         if (inGame) {
             playGame(g2d);
         } else {
-            Sound.SIREN.stop();
+            Sound.FONDO.stop();
             showIntroScreen(g2d);
         }
 
@@ -863,10 +863,10 @@ public class Board extends JPanel implements ActionListener {
                 }
             } else {
                 if (key == 's' || key == 'S') {
-                    Sound.PACMAN_BEGINNING.play();
+                    Sound.INTRO.play();
                     inGame = true;
                     initGame();
-                    Sound.SIREN.loop(); // inicia a sonar la sirena del juego
+                    Sound.FONDO.loop(); // inicia a sonar la sirena del juego
                 }
             }
         }
