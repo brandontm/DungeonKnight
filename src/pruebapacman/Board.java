@@ -6,6 +6,7 @@ package pruebapacman;
  * Probando
  * @author Juan Ernesto
  */
+import clases.jugador;
 import clases.*;
 
 import java.awt.BasicStroke;
@@ -34,6 +35,7 @@ public class Board extends JPanel implements ActionListener {
 
     private Dimension d;
     private final Font smallFont = new Font("Helvetica", Font.BOLD, 14);
+    private final Font smaller= new Font("Helvetica",Font.BOLD, 13);
 
     private final Color dotColor = new Color(255, 255, 255);
     private Color mazeColor;
@@ -66,7 +68,7 @@ public class Board extends JPanel implements ActionListener {
     private int N_GHOSTS = 2;
     private int score;
     private int[] dx, dy;
-    private Pacman pacman;
+    private jugador jugador;
     private ArrayList <Fantasma> fantasmas = new ArrayList<>(); // array list para crear los objetos Fantasma
     private Mago mago;
     private int acumPointsEat = 0;
@@ -189,7 +191,7 @@ public class Board extends JPanel implements ActionListener {
 
 
     private final int validSpeeds[] = {1, 2, 3, 4, 6, 8};
-    private final int maxSpeed = 6;
+    private final int maxSpeed = 4;
 
     private int currentSpeed = 3;
     private short[] screenData;
@@ -208,17 +210,17 @@ public class Board extends JPanel implements ActionListener {
 
         setFocusable(true);
 
-        setBackground(Color.black);
+        setBackground(Color.WHITE);
         setDoubleBuffered(true);
     }
 
     private void initVariables() {
 
         screenData = new short[N_BLOCKS * N_BLOCKS];
-        mazeColor = new Color(5, 100, 5);
-        d = new Dimension(400, 400); // esta variable solamente se usa para crear un rectangulo negro
+        mazeColor = new Color(150, 71, 38);
+        d = new Dimension(420, 400); // esta variable solamente se usa para crear un rectangulo negro
         //region Inicializar Pacman
-        pacman = new Pacman(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT), this, "Pacman");
+        jugador = new jugador(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT), this, "Pacman");
         mago= new Mago(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT),this, "Mago");
         //endregion
 
@@ -271,23 +273,23 @@ public class Board extends JPanel implements ActionListener {
 
         if (dying) {
 
-            if (pacman.getCurrentAnimation().getCurrentFrame() == 0){
-                Sound.FONDO.stop();
-                timer.stop();
+            if (jugador.getCurrentAnimation().getCurrentFrame() == 0){
+//                Sound.FONDO.stop();
+//                timer.stop();
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 timer.start();
-                Sound.PACMAN_DEATH.play();
+//                Sound.PACMAN_DEATH.play();
             }
-            pacman.update();
+            jugador.update();
             drawPacmanDie(g2d);
            // timer.wait(1000);
-            if (pacman.getCurrentAnimation().isFinished()){
+            if (jugador.getCurrentAnimation().isFinished()){
                 death();
-                timer.stop();
+//                timer.stop();
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException ex) {
@@ -298,10 +300,10 @@ public class Board extends JPanel implements ActionListener {
             }
         } else {
             if (whatEatGhost == -1){
-                 movePacman();
+                 moveJugador();
             }
             drawPacman(g2d);
-            moveGhosts(g2d);
+            moveVillano(g2d);
             checkMaze();
         }
     }
@@ -312,14 +314,15 @@ public class Board extends JPanel implements ActionListener {
         g2d.fillRect(50, SCREEN_SIZE / 2 - 30, SCREEN_SIZE - 100, 50);
         g2d.setColor(Color.white);
         g2d.drawRect(50, SCREEN_SIZE / 2 - 30, SCREEN_SIZE - 100, 50);
-
-        String s = "Press s to start.";
-        Font small = new Font("Helvetica", Font.BOLD, 14);
+       
+        Font small = new Font("Helvetica", Font.BOLD, 14);   
         FontMetrics metr = this.getFontMetrics(small);
-
-        g2d.setColor(Color.white);
         g2d.setFont(small);
-        g2d.drawString(s, (SCREEN_SIZE - metr.stringWidth(s)) / 2, SCREEN_SIZE / 2);
+        String s = "Dungeon Knight" ;
+        g2d.setColor(Color.white);
+        String S= "Press s to start.";
+        g2d.drawString(S, (SCREEN_SIZE - metr.stringWidth(S)) / 2, SCREEN_SIZE / 2 + 10);
+        g2d.drawString(s, (SCREEN_SIZE - metr.stringWidth(s))/ 2, SCREEN_SIZE/2 - 10);
     }
 
     private void drawScore(Graphics2D g) {
@@ -329,11 +332,11 @@ public class Board extends JPanel implements ActionListener {
 
         g.setFont(smallFont);
         g.setColor(new Color(96, 128, 255));
-        s = "Score: " + score;
-        g.drawString(s, SCREEN_SIZE / 2 + 96, SCREEN_SIZE + 16);
+        s = "Puntuacion: " + score;
+        g.drawString(s, SCREEN_SIZE / 2 + 50, SCREEN_SIZE + 16);
 
-        for (i = 0; i < pacman.getHealth(); i++) {
-            g.drawImage(new ImageIcon("images/Personaje (Right).png").getImage(), i * 28 + 8, SCREEN_SIZE + 1, this);
+        for (i = 0; i < jugador.getHealth(); i++) {
+            g.drawImage(new ImageIcon("images/Health3.png").getImage(), i * 3, SCREEN_SIZE + 1, this);
         }
     }
 
@@ -371,9 +374,9 @@ public class Board extends JPanel implements ActionListener {
 
     private void death() {
 
-        pacman.setHealth(pacman.getHealth() - 1);
-        pacman.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT));
-        if (pacman.getHealth() == 0) {
+        jugador.setHealth(jugador.getHealth() - 5);
+        jugador.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT));
+        if (jugador.getHealth() == 0) {
             inGame = false;
             Sound.FONDO.stop();
         }
@@ -381,7 +384,7 @@ public class Board extends JPanel implements ActionListener {
         continueLevel();
     }
 
-  private void moveGhosts(Graphics2D g2d) {
+  private void moveVillano(Graphics2D g2d) {
         short i;
         int pos;
         int count;
@@ -396,25 +399,25 @@ public class Board extends JPanel implements ActionListener {
                 pos = fantasmas.get(i).getPosx() / BLOCK_SIZE + N_BLOCKS * (int) (fantasmas.get(i).getPosy() / BLOCK_SIZE);
                 count = 0;
                 if (eatingGhost) {
-                    if ((screenData[pos] & 1) == 0 && fantasmas.get(i).getDirx() != 1 && fantasmas.get(i).getPosx() <= pacman.getPosx()) {
+                    if ((screenData[pos] & 1) == 0 && fantasmas.get(i).getDirx() != 1 && fantasmas.get(i).getPosx() <= jugador.getPosx()) {
                         dx[count] = -1;
                         dy[count] = 0;
                         count++;
                     }
 
-                    if ((screenData[pos] & 2) == 0 && fantasmas.get(i).getDiry() != 1 && fantasmas.get(i).getPosy() <= pacman.getPosy()) {
+                    if ((screenData[pos] & 2) == 0 && fantasmas.get(i).getDiry() != 1 && fantasmas.get(i).getPosy() <= jugador.getPosy()) {
                         dx[count] = 0;
                         dy[count] = -1;
                         count++;
                     }
 
-                    if ((screenData[pos] & 4) == 0 && fantasmas.get(i).getDirx() != -1 && fantasmas.get(i).getPosx() >= pacman.getPosx()) {
+                    if ((screenData[pos] & 4) == 0 && fantasmas.get(i).getDirx() != -1 && fantasmas.get(i).getPosx() >= jugador.getPosx()) {
                         dx[count] = 1;
                         dy[count] = 0;
                         count++;
                     }
 
-                    if ((screenData[pos] & 8) == 0 && fantasmas.get(i).getDiry() != -1 && fantasmas.get(i).getPosy() >= pacman.getPosy()) {
+                    if ((screenData[pos] & 8) == 0 && fantasmas.get(i).getDiry() != -1 && fantasmas.get(i).getPosy() >= jugador.getPosy()) {
                         dx[count] = 0;
                         dy[count] = 1;
                         count++;
@@ -523,22 +526,22 @@ public class Board extends JPanel implements ActionListener {
                 }
             }                
             if (fantasmas.get(i).getEating() == false && eatingGhost == false){
-                drawGhost(g2d, i, fantasmas.get(i).getCurrentAnimation().getCurrentFrame());
+                drawVillano(g2d, i, fantasmas.get(i).getCurrentAnimation().getCurrentFrame());
             }
-            if (fantasmas.get(i).getEating() == true){
-                drawEatenGhost(g2d,i); // si el fantasma ya está comido
-            }
-            if (fantasmas.get(i).getEating() == false && eatingGhost == true){
-                drawScaredGhost(g2d,i); // si el fantasma ya está comido
-            }
-            if (pacman.getPosx() > (fantasmas.get(i).getPosx() - 12) && pacman.getPosx() < (fantasmas.get(i).getPosx() + 12)
-                    && pacman.getPosy() > (fantasmas.get(i).getPosy() - 12) && pacman.getPosy() < (fantasmas.get(i).getPosy() + 12)
+//            if (fantasmas.get(i).getEating() == true){
+//                drawEatenGhost(g2d,i); // si el fantasma ya está comido
+//            }
+//            if (fantasmas.get(i).getEating() == false && eatingGhost == true){
+//                drawScaredGhost(g2d,i); // si el fantasma ya está comido
+//            }
+            if (jugador.getPosx() > (fantasmas.get(i).getPosx() - 12) && jugador.getPosx() < (fantasmas.get(i).getPosx() + 12)
+                    && jugador.getPosy() > (fantasmas.get(i).getPosy() - 12) && jugador.getPosy() < (fantasmas.get(i).getPosy() + 12)
                     && inGame && eatingGhost == false && fantasmas.get(i).getEating() == false ) {
                 dying = true;
-                pacman.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_DIE));
+                jugador.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_DIE));
             }
-            if (pacman.getPosx() > (fantasmas.get(i).getPosx() - 12) && pacman.getPosx() < (fantasmas.get(i).getPosx() + 12)
-                    && pacman.getPosy() > (fantasmas.get(i).getPosy() - 12) && pacman.getPosy() < (fantasmas.get(i).getPosy() + 12)
+            if (jugador.getPosx() > (fantasmas.get(i).getPosx() - 12) && jugador.getPosx() < (fantasmas.get(i).getPosx() + 12)
+                    && jugador.getPosy() > (fantasmas.get(i).getPosy() - 12) && jugador.getPosy() < (fantasmas.get(i).getPosy() + 12)
                     && inGame && eatingGhost == true && fantasmas.get(i).getEating() == false ) {
 
 //                Sound.GHOST_SCARED.stop();
@@ -553,7 +556,7 @@ public class Board extends JPanel implements ActionListener {
 
     }
   
-    private void drawGhost(Graphics2D g2d, int i, int frame) {
+    private void drawVillano(Graphics2D g2d, int i, int frame) {
         // para dibujar el fantasma se toma la imagen del objeto
         g2d.drawImage(fantasmas.get(i).getCurrentAnimation().getImages()[frame], fantasmas.get(i).getPosx(), fantasmas.get(i).getPosy(), this);
         //g2d.drawImage(fantasmas.get(i).getImages()[frame], fantasmas.get(i).getPosx(), fantasmas.get(i).getPosy(), this);  
@@ -566,31 +569,31 @@ public class Board extends JPanel implements ActionListener {
         }
         //g2d.drawImage(ghost, x, y, this);
     }
-    private void drawScaredGhost(Graphics2D g2d, int i) {
-        // para dibujar el fantasma se toma la imagen del objeto
-        //if (fantasmas.get(i).getVisible()){
-            g2d.drawImage(ghostScared, fantasmas.get(i).getPosx(), fantasmas.get(i).getPosy(), this);
-        //}
-        //g2d.drawImage(ghost, x, y, this);
-    }
-    private void movePacman() {
+//    private void drawScaredGhost(Graphics2D g2d, int i) {
+//        // para dibujar el fantasma se toma la imagen del objeto
+//        //if (fantasmas.get(i).getVisible()){
+//            g2d.drawImage(ghostScared, fantasmas.get(i).getPosx(), fantasmas.get(i).getPosy(), this);
+//        //}
+//        //g2d.drawImage(ghost, x, y, this);
+//    }
+    private void moveJugador() {
 
-        pacman.update();
+        jugador.update();
         int pos;
         short ch;
         boolean flag = false;
-        if (req_dx == -pacman.getDirx() && req_dy == -pacman.getDiry()) {
+        if (req_dx == -jugador.getDirx() && req_dy == -jugador.getDiry()) {
             // checar si cambio la direccion
-            dirChanged = (req_dx != pacman.getDirx() || req_dy != pacman.getDiry());
+            dirChanged = (req_dx != jugador.getDirx() || req_dy != jugador.getDiry());
             flag = true;
-            pacman.setDirx(req_dx);
-            pacman.setDiry(req_dy);
-            view_dx = pacman.getDirx();
-            view_dy = pacman.getDiry();
+            jugador.setDirx(req_dx);
+            jugador.setDiry(req_dy);
+            view_dx = jugador.getDirx();
+            view_dy = jugador.getDiry();
         }
 
-        if (pacman.getPosx() % BLOCK_SIZE == 0 && pacman.getPosy() % BLOCK_SIZE == 0) {
-            pos = pacman.getPosx() / BLOCK_SIZE + N_BLOCKS * (int) (pacman.getPosy() / BLOCK_SIZE);
+        if (jugador.getPosx() % BLOCK_SIZE == 0 && jugador.getPosy() % BLOCK_SIZE == 0) {
+            pos = jugador.getPosx() / BLOCK_SIZE + N_BLOCKS * (int) (jugador.getPosy() / BLOCK_SIZE);
             ch = screenData[pos];
 
             if ((ch & 16) != 0) {
@@ -601,9 +604,9 @@ public class Board extends JPanel implements ActionListener {
             // si se come el cuadro de super poder
             if ((ch & 32) != 0) {
                 screenData[pos] = (short) (ch & 15);
-                score = score + 10;
+                score = score + 100;
                 superPacmanCount = 0;
-                eatingGhost = true;
+                eatingGhost = false;
                 acumPointsEat = 200;
                 Sound.HADA.play();
             }
@@ -614,52 +617,52 @@ public class Board extends JPanel implements ActionListener {
                         || (req_dx == 0 && req_dy == -1 && (ch & 2) != 0)
                         || (req_dx == 0 && req_dy == 1 && (ch & 8) != 0))) {
                     // checar si cambio la direccion
-                    if(!flag) dirChanged = ((req_dx != pacman.getDirx() || req_dy != pacman.getDiry()));
-                    pacman.setDirx(req_dx);
-                    pacman.setDiry(req_dy);
-                    view_dx = pacman.getDirx();
-                    view_dy = pacman.getDiry();
+                    if(!flag) dirChanged = ((req_dx != jugador.getDirx() || req_dy != jugador.getDiry()));
+                    jugador.setDirx(req_dx);
+                    jugador.setDiry(req_dy);
+                    view_dx = jugador.getDirx();
+                    view_dy = jugador.getDiry();
                 }
             }
 
             // Check for standstill
-            if ((pacman.getDirx() == -1 && pacman.getDiry() == 0 && (ch & 1) != 0)
-                    || (pacman.getDirx() == 1 && pacman.getDiry() == 0 && (ch & 4) != 0)
-                    || (pacman.getDirx() == 0 && pacman.getDiry() == -1 && (ch & 2) != 0)
-                    || (pacman.getDirx() == 0 && pacman.getDiry() == 1 && (ch & 8) != 0)
-                    || (pacman.getDirx() == -1 && pacman.getDiry() == 0 && (ch & 1) != 0)) {
-                pacman.setDirx(0);
-                pacman.setDiry(0);
+            if ((jugador.getDirx() == -1 && jugador.getDiry() == 0 && (ch & 1) != 0)
+                    || (jugador.getDirx() == 1 && jugador.getDiry() == 0 && (ch & 4) != 0)
+                    || (jugador.getDirx() == 0 && jugador.getDiry() == -1 && (ch & 2) != 0)
+                    || (jugador.getDirx() == 0 && jugador.getDiry() == 1 && (ch & 8) != 0)
+                    || (jugador.getDirx() == -1 && jugador.getDiry() == 0 && (ch & 1) != 0)) {
+                jugador.setDirx(0);
+                jugador.setDiry(0);
             }
         }
-        pacman.setPosx(pacman.getPosx() + PACMAN_SPEED * pacman.getDirx());
-        pacman.setPosy(pacman.getPosy() + PACMAN_SPEED * pacman.getDiry());
+        jugador.setPosx(jugador.getPosx() + PACMAN_SPEED * jugador.getDirx());
+        jugador.setPosy(jugador.getPosy() + PACMAN_SPEED * jugador.getDiry());
     }
 
-    // dibujar a pacman
+    // dibujar a personaje
     private void drawPacman(Graphics2D g2d) {
         //TODO: Recordar el frame en que se quedo la animacion
        if (whatEatGhost == -1) { 
         if(dirChanged) {
-            int frame = pacman.getCurrentAnimation().getCurrentFrame();
+            int frame = jugador.getCurrentAnimation().getCurrentFrame();
           
             if (view_dx == -1) {
-                pacman.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT));
+                jugador.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT));
             } else if (view_dx == 1) {
-                pacman.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_RIGHT));
+                jugador.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_RIGHT));
             } else if (view_dy == -1) {
-                pacman.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_UP));
+                jugador.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_UP));
             } else {
-                pacman.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_DOWN));
+                jugador.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_DOWN));
             }
           }
-        g2d.drawImage(pacman.getCurrentAnimation().getImages()[pacman.getCurrentAnimation().getCurrentFrame()],
-                pacman.getPosx() + 1 , pacman.getPosy() + 1 , this);
+        g2d.drawImage(jugador.getCurrentAnimation().getImages()[jugador.getCurrentAnimation().getCurrentFrame()],
+                jugador.getPosx() + 1 , jugador.getPosy() + 1 , this);
        }
        else{
             if (pacmanAnimPoints <= 6){
                 pacmanAnimPoints++;
-                g2d.drawString(String.valueOf(acumPointsEat), pacman.getPosx() + 2, pacman.getPosy() + 14);
+                g2d.drawString(String.valueOf(acumPointsEat), jugador.getPosx() + 2, jugador.getPosy() + 14);
             }
             else{
                 pacmanAnimPoints = 0;
@@ -681,7 +684,8 @@ public class Board extends JPanel implements ActionListener {
     }
     // este método hace la animación de cuando Pacman muere
     private void drawPacmanDie(Graphics2D g2d) {
-        g2d.drawImage(pacman.getCurrentAnimation().getImages()[pacman.getCurrentAnimation().getCurrentFrame()], pacman.getPosx() + 1 , pacman.getPosy() + 1 , this);
+        g2d.drawImage(jugador.getCurrentAnimation().getImages()[jugador.getCurrentAnimation().getCurrentFrame()], 
+                jugador.getPosx() + 1 , jugador.getPosy() + 1 , this);
     }
     private void drawMaze(Graphics2D g2d) {
 
@@ -730,7 +734,7 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void initGame() {
-        pacman.setHealth(3);
+        jugador.setHealth(30);
         score = 0;
         initLevel();
         N_GHOSTS = 2;
@@ -742,24 +746,24 @@ public class Board extends JPanel implements ActionListener {
         int i;
         if (levelnum == 1) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData1[i];
+            screenData[i] = levelData[i];
             }
         }
         if (levelnum == 2) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData[i];
+            screenData[i] = levelData2[i];
             }
         }
         
         if (levelnum == 3) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData2[i];
+            screenData[i] = levelData1[i];
             }
             
         }
         if (levelnum > 3) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData1[i];
+            screenData[i] = levelData[i];
             }
         }
 
@@ -785,10 +789,10 @@ public class Board extends JPanel implements ActionListener {
             oFantasma.setEating(false);
         }
 
-        pacman.setPosx(7 * BLOCK_SIZE);
-        pacman.setPosy(10 * BLOCK_SIZE);
-        pacman.setDirx(0);
-        pacman.setDiry(0);
+        jugador.setPosx(7 * BLOCK_SIZE);
+        jugador.setPosy(10 * BLOCK_SIZE);
+        jugador.setDirx(0);
+        jugador.setDiry(0);
         req_dx = 0;
         req_dy = 0;
         view_dx = -1;
