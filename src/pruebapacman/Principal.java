@@ -9,9 +9,9 @@ public class Principal extends JFrame {
     public Principal() {
         add(new Board());
 
-        setTitle("Pacman");
+        setTitle("Dungeon Knight");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(380, 420);
+        setSize(365, 420);
         setLocationRelativeTo(null);
         setVisible(true);
     }

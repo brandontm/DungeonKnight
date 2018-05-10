@@ -13,10 +13,10 @@ import java.applet.AudioClip;
  * @author mac
  */
 public class Sound {
-    public static final AudioClip PACMAN_MUNCH = Applet.newAudioClip(Sound.class.getResource("sounds/pacman_munch.wav"));
-    public static final AudioClip PACMAN_BEGINNING = Applet.newAudioClip(Sound.class.getResource("sounds/pacman_beginning.wav"));
+//    public static final AudioClip PACMAN_MUNCH = Applet.newAudioClip(Sound.class.getResource("sounds/pacman_munch.wav"));
+    public static final AudioClip INTRO = Applet.newAudioClip(Sound.class.getResource("sounds/Intro2.wav"));
     public static final AudioClip PACMAN_DEATH = Applet.newAudioClip(Sound.class.getResource("sounds/pacman_death.wav"));
-    public static final AudioClip SIREN = Applet.newAudioClip(Sound.class.getResource("sounds/siren.wav"));
-    public static final AudioClip GHOST_SCARED = Applet.newAudioClip(Sound.class.getResource("sounds/ghosts_ambient_scared2.wav"));
+    public static final AudioClip FONDO = Applet.newAudioClip(Sound.class.getResource("sounds/Fondo.wav"));
+    public static final AudioClip HADA = Applet.newAudioClip(Sound.class.getResource("sounds/Hada.wav"));
     public static final AudioClip GHOST_EATEN = Applet.newAudioClip(Sound.class.getResource("sounds/ghost_eaten.wav"));
 }
