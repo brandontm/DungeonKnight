@@ -186,7 +186,27 @@ public class Board extends JPanel implements ActionListener {
 /*14*/  21, 21, 21, 25, 24, 26, 26, 21,  0, 15, 15,  0, 21, 21, 21,
 /*15*/  25, 26, 24, 26, 26, 26, 26, 24, 26, 26, 26, 26, 24, 26, 28,
             };
-
+    
+     private final short levelDataFinal[] = {
+//      1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
+         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+     
+     };
     // TODO: Agregar una forma en la que un espacio abierto en el borde te mande al otro extremo de la pantalla
 
 
@@ -312,7 +332,7 @@ public class Board extends JPanel implements ActionListener {
 
         g2d.setColor(new Color(0, 32, 48));
         g2d.fillRect(50, SCREEN_SIZE / 2 - 30, SCREEN_SIZE - 100, 50);
-        g2d.setColor(Color.white);
+        g2d.setColor(Color.LIGHT_GRAY);
         g2d.drawRect(50, SCREEN_SIZE / 2 - 30, SCREEN_SIZE - 100, 50);
        
         Font small = new Font("Helvetica", Font.BOLD, 14);   
@@ -320,25 +340,34 @@ public class Board extends JPanel implements ActionListener {
         g2d.setFont(small);
         String s = "Dungeon Knight" ;
         g2d.setColor(Color.white);
+        g2d.drawString(s, (SCREEN_SIZE - metr.stringWidth(s))/ 2, SCREEN_SIZE/2 - 10);
+        g2d.setColor(Color.LIGHT_GRAY);
         String S= "Press s to start.";
         g2d.drawString(S, (SCREEN_SIZE - metr.stringWidth(S)) / 2, SCREEN_SIZE / 2 + 10);
-        g2d.drawString(s, (SCREEN_SIZE - metr.stringWidth(s))/ 2, SCREEN_SIZE/2 - 10);
+        
     }
 
     private void drawScore(Graphics2D g) {
 
         int i;
-        String s;
-
+        String s;      
         g.setFont(smallFont);
         g.setColor(new Color(96, 128, 255));
         s = "Puntuacion: " + score;
+        
         g.drawString(s, SCREEN_SIZE / 2 + 50, SCREEN_SIZE + 16);
-
+        
+       
         for (i = 0; i < jugador.getHealth(); i++) {
-            g.drawImage(new ImageIcon("images/Health3.png").getImage(), i * 3, SCREEN_SIZE + 1, this);
+            g.drawImage(new ImageIcon("images/Health4.png").getImage(), i * 3, SCREEN_SIZE + 7, this);
         }
+        String H;
+        H = "Vida";
+        g.setFont(smallFont);
+        g.setColor(new Color(0, 150, 0));
+        g.drawString(H, SCREEN_SIZE / 2 -155, SCREEN_SIZE + 30);
     }
+    
 
     private void checkMaze() {
 
@@ -368,7 +397,7 @@ public class Board extends JPanel implements ActionListener {
             
             levelnum++;
 
-            initLevel();
+            initLevel ();
         }
     }
 
@@ -734,13 +763,27 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void initGame() {
-        jugador.setHealth(30);
+        jugador.setHealth(20);
         score = 0;
         initLevel();
         N_GHOSTS = 2;
         currentSpeed = 3;
     }
-
+    private void drawFinal(Graphics2D g2d) { 
+        g2d.setColor(new Color(0, 32, 48));
+        g2d.fillRect(50, SCREEN_SIZE / 2 - 30, SCREEN_SIZE - 100, 50);
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.drawRect(50, SCREEN_SIZE / 2 - 30, SCREEN_SIZE - 100, 50);
+        Font small = new Font("Helvetica", Font.BOLD, 14);   
+        FontMetrics metr = this.getFontMetrics(small);
+        g2d.setFont(small);
+        String s = "Fin del juego" ;
+        g2d.setColor(Color.white);
+        g2d.drawString(s, (SCREEN_SIZE - metr.stringWidth(s))/ 2, SCREEN_SIZE/2 - 10);
+        g2d.setColor(Color.LIGHT_GRAY);
+        String S= "Gracias por jugar";
+        g2d.drawString(S, (SCREEN_SIZE - metr.stringWidth(S)) / 2, SCREEN_SIZE / 2 + 10);
+        }
     private void initLevel() {
 
         int i;
@@ -751,25 +794,25 @@ public class Board extends JPanel implements ActionListener {
         }
         if (levelnum == 2) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData2[i];
+            screenData[i] = levelData1[i];
             }
         }
         
         if (levelnum == 3) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData1[i];
+            screenData[i] = levelData2[i];
             }
             
         }
         if (levelnum > 3) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData[i];
+            screenData[i] = levelDataFinal[i];
             }
-        }
-
+                         
+        }      
         continueLevel();
     }
-
+    
     private void continueLevel() {
 //      short i;
         int dx = 1;
@@ -835,6 +878,7 @@ public class Board extends JPanel implements ActionListener {
         Toolkit.getDefaultToolkit().sync();
         g2d.dispose();
     }
+
 
     class TAdapter extends KeyAdapter {
 
