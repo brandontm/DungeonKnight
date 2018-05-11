@@ -74,7 +74,7 @@ public class Board extends JPanel implements ActionListener {
     private Mago mago;
     private int acumPointsEat = 0;
     private int whatEatGhost = -1;
-    private int levelnum = 1;
+    private int levelnum = 4;
 /////    private Image ghost; //imagen png del fantasma
 ////    private Image clydeGhost;
 ////    private Image blinkyGhost;
@@ -192,15 +192,15 @@ public class Board extends JPanel implements ActionListener {
 //      1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-         0,0,0,0,0,0,0,0,0,0,18,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-         0,0,0,0,34,0,0,0,0,0,0,0,0,0,0,
-         0,0,0,0,33,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-         0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -795,30 +795,32 @@ public class Board extends JPanel implements ActionListener {
         g2d.setColor(Color.LIGHT_GRAY);
         String S= "Gracias por jugar";
         g2d.drawString(S, (SCREEN_SIZE - metr.stringWidth(S)) / 2, SCREEN_SIZE / 2 + 10);
-        }
+    }
+
     private void initLevel() {
 
         int i;
         if (levelnum == 1) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelDataFinal[i];
+                screenData[i] = levelData[i];
             }
         }
         if (levelnum == 2) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData1[i];
+                screenData[i] = levelData1[i];
             }
         }
         
         if (levelnum == 3) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData2[i];
+                screenData[i] = levelData2[i];
             }
-            
+
+            inGame = false;
         }
         if (levelnum > 3) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelDataFinal[i];
+                screenData[i] = levelDataFinal[i];
             }
                          
         }      
@@ -883,8 +885,12 @@ public class Board extends JPanel implements ActionListener {
         if (inGame) {
             playGame(g2d);
         } else {
-            Sound.FONDO.stop();
-            showIntroScreen(g2d);
+            if(levelnum > 3) {
+                drawFinal(g2d);
+            } else {
+                Sound.FONDO.stop();
+                showIntroScreen(g2d);
+            }
         }
 
         Toolkit.getDefaultToolkit().sync();
@@ -922,6 +928,8 @@ public class Board extends JPanel implements ActionListener {
                     }
                 }
             } else {
+                if(levelnum > 3) return;
+                
                 if (key == 's' || key == 'S') {
                     Sound.INTRO.play();
                     inGame = true;
