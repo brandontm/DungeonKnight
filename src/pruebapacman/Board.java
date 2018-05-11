@@ -55,6 +55,7 @@ public class Board extends JPanel implements ActionListener {
     private int pacmanAnimPoints = 0;
     private boolean dirChanged = false;
     private final int POINTS_EAT_GHOST = 200;
+    private boolean dotsEaten = true;
 
     //private int pacAnimCount = PAC_ANIM_DELAY;
     //private int ghostsAnimCount = GHOSTS_ANIM_COUNT;
@@ -134,23 +135,23 @@ public class Board extends JPanel implements ActionListener {
  private final short levelData1 [] = {
  //      1   2   3   4   5   6   7   8   9  10  11  12  13  14  15
 /*1*/   19, 26, 26, 26, 26, 18, 26, 26, 26, 26, 26, 26, 26, 26, 22,
-/*2*/   21, 19, 26, 18, 22, 21, 19, 18, 18, 18, 18, 18, 18, 54, 21,
+/*2*/   21, 19, 26, 18, 22, 21, 19, 18, 18, 18, 18, 18, 18, 38, 21,
 /*3*/   45, 21, 39, 17, 20, 21, 17, 24, 24, 24, 24, 24, 24, 28, 21,
-/*4*/   19, 16, 24, 24, 28, 21, 21, 51, 18, 18, 26, 26, 26, 26, 20,
+/*4*/   19, 16, 24, 24, 28, 21, 21, 35, 18, 18, 26, 26, 26, 26, 20,
 /*5*/   17, 24, 26, 26, 26, 28, 21, 25, 24, 20, 19, 18, 18, 22, 21,
 /*6*/   21, 19, 18, 18, 18, 18, 16, 18, 22, 21, 17, 16, 16, 20, 21,
-/*7*/   53, 21, 21, 17, 16, 16, 16, 16, 20, 21, 17, 16, 24, 28, 21,
+/*7*/   37, 21, 21, 17, 16, 16, 16, 16, 20, 21, 17, 16, 24, 28, 21,
 /*8*/   21, 21, 21, 17, 16, 16, 16, 16, 20, 21, 17, 20, 19, 22, 21,
 /*9*/   21, 21, 21, 17, 16, 16, 16, 16, 20, 21, 17, 20, 17, 20, 21,
 /*10*/  21, 21, 21, 17, 24, 24, 12, 21, 29, 21, 17, 16, 16, 20, 21,
 /*11*/  21, 21, 21, 21, 19, 26, 26, 16, 26, 28, 17, 20, 17, 20, 21,
-/*12*/  21, 21, 61, 21, 21, 19, 22, 21, 19, 18, 16, 20, 17, 20, 21,
-/*13*/  21, 17, 18, 20, 21, 17, 16, 16, 16, 16, 16, 20, 25, 60, 21,
+/*12*/  21, 21, 45, 21, 21, 19, 22, 21, 19, 18, 16, 20, 17, 20, 21,
+/*13*/  21, 17, 18, 20, 21, 17, 16, 16, 16, 16, 16, 20, 25, 44, 21,
 /*14*/  21, 25, 24, 28, 21, 25, 24, 24, 24, 24, 24, 24, 26, 30, 21,
-/*15*/  25, 26, 26, 26, 24, 26, 26, 58, 26, 26, 26, 26, 26, 26, 28,
+/*15*/  25, 26, 26, 26, 24, 26, 26, 42, 26, 26, 26, 26, 26, 26, 28,
             };
     private final short levelData[] = {
-        19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 54,
+        19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 38,
         17, 21, 16, 16, 24, 16, 16, 16, 16, 16, 24, 16, 16, 21, 20,
         17, 16, 16, 20,  0, 17, 16, 16, 16, 20, 0, 17, 16, 16, 20,
         17, 16, 24, 28,  0, 25, 24, 16, 16, 28, 0, 25, 24,  24,20,
@@ -162,7 +163,7 @@ public class Board extends JPanel implements ActionListener {
         21,  0,  0, 21,  0,  0, 21,  0, 21,  0,  0, 21,  0,  0, 21,
         25, 22,  0, 17, 26, 18, 24, 26, 24, 18, 26, 20,  0, 19, 28,
          0, 21,  0, 21,  0, 21,  0,  0,  0, 21,  0, 21,  0, 21,  0,
-        51, 24, 26, 28,  0, 25, 22,  0, 51, 28,  0, 25, 26, 24, 22,
+        35, 24, 26, 28,  0, 25, 22,  0, 35, 28,  0, 25, 26, 24, 22,
         21,  0,  0,  0,  0,  0, 21,  0, 21,  0,  0,  0,  0,  0, 21,
         25, 26, 26, 26, 26, 26, 24, 26, 24, 26, 26, 26, 26, 26, 28
         };
@@ -170,7 +171,7 @@ public class Board extends JPanel implements ActionListener {
     private final short levelData2[] = {
 //      1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
 /*1*/   19, 26, 18, 26, 26, 26, 26, 18, 26, 26, 26, 26, 18, 26, 22,
-/*2*/   21, 7,  21, 11,  10,  10,  0,  17, 24, 24, 24, 60, 21, 7,  21,
+/*2*/   21, 7,  21, 11,  10,  10,  0,  17, 24, 24, 24, 44, 21, 7,  21,
 /*3*/   17, 0,  16, 26, 26, 26, 26, 24, 26, 18, 26, 26, 16, 0,  20,
 /*4*/   21, 21, 21, 19, 26, 26, 26, 26, 28, 21, 43, 22, 21, 21, 21,
 /*5*/   21, 21, 21, 45, 19, 24, 26, 26, 26, 24, 22, 21, 21, 21, 21,
@@ -191,15 +192,15 @@ public class Board extends JPanel implements ActionListener {
 //      1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,18,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,34,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,33,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -241,7 +242,7 @@ public class Board extends JPanel implements ActionListener {
         d = new Dimension(420, 400); // esta variable solamente se usa para crear un rectangulo negro
         //region Inicializar Pacman
         jugador = new jugador(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT), this, "Pacman");
-        mago= new Mago(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT),this, "Mago");
+//        mago= new Mago(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT),this, "Mago");
         //endregion
 
         //region Inicializar fantasmas
@@ -372,18 +373,29 @@ public class Board extends JPanel implements ActionListener {
     private void checkMaze() {
 
         short i = 0;
-        boolean finished = true;
+        dotsEaten = true;
+        boolean hadasEaten = true;
 
-        while (i < N_BLOCKS * N_BLOCKS && finished) {
+        while (i < N_BLOCKS * N_BLOCKS && dotsEaten) {
 
-            if ((screenData[i] & 48) != 0) {
-                finished = false;
+            if ((screenData[i] & 16) != 0) {
+                dotsEaten = false;
             }
 
             i++;
         }
 
-        if (finished) {
+        i = 0;
+        while (i < N_BLOCKS * N_BLOCKS && hadasEaten) {
+
+            if ((screenData[i] & 32) != 0) {
+                hadasEaten = false;
+            }
+
+            i++;
+        }
+
+        if (hadasEaten) {
 
             score += 50;
 
@@ -630,8 +642,8 @@ public class Board extends JPanel implements ActionListener {
                 score++;
 //                Sound.PACMAN_MUNCH.play();
             }
-            // si se come el cuadro de super poder
-            if ((ch & 32) != 0) {
+            // si se come una hada y ya se comió todas las bolitas
+            if ((ch & 32) != 0 && dotsEaten) {
                 screenData[pos] = (short) (ch & 15);
                 score = score + 100;
                 superPacmanCount = 0;
@@ -789,7 +801,7 @@ public class Board extends JPanel implements ActionListener {
         int i;
         if (levelnum == 1) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-            screenData[i] = levelData[i];
+            screenData[i] = levelDataFinal[i];
             }
         }
         if (levelnum == 2) {
