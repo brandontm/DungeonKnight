@@ -53,23 +53,23 @@ public enum AnimationEnum {
             new ImageIcon("images/mdown.png").getImage()}, 1, true),
     
     OGRO_NORMAL_LEFT(new Image[]{
-            new ImageIcon("images/Ogre (Left).png").getImage(),
-            new ImageIcon("images/Ogre (Walking1Left).png").getImage(),
-            new ImageIcon("images/Ogre (Walking2Left.png").getImage()}, 1, true),
+            new ImageIcon("images/Ogreleft.png").getImage(),
+            new ImageIcon("images/Ogreleft1.png").getImage(),
+            new ImageIcon("images/Ogreleft2.png").getImage()}, 1, true),
     
     OGRO_NORMAL_RIGHT(new Image[]{
-            new ImageIcon("images/Ogre (Right).png").getImage(),
-            new ImageIcon("images/Ogre (Walking1Right).png").getImage(),
-            new ImageIcon("images/Ogre(Walking2Right.png").getImage()}, 1, true),
+            new ImageIcon("images/Ogreright.png").getImage(),
+            new ImageIcon("images/Ogreright1.png").getImage(),
+            new ImageIcon("images/Ogreright2.png").getImage()}, 1, true),
     OGRO_NORMAL_UP(new Image[]{
-     new ImageIcon("images/Ogre (Right).png").getImage(),
-            new ImageIcon("images/Ogre (Walking1Right).png").getImage(),
-            new ImageIcon("images/Ogre(Walking2Right.png").getImage()}, 1, true),     
+     new ImageIcon("images/Ogreright.png").getImage(),
+            new ImageIcon("images/Ogreright1.png").getImage(),
+            new ImageIcon("images/Ogreright2.png").getImage()}, 1, true),     
     
     OGRO_NORMAL_DOWN(new Image[]{
-     new ImageIcon("images/Ogre (Right).png").getImage(),
-            new ImageIcon("images/Ogre (Walking1Right).png").getImage(),
-            new ImageIcon("images/Ogre(Walking2Right.png").getImage()}, 1, true), 
+     new ImageIcon("images/Ogreright.png").getImage(),
+            new ImageIcon("images/Ogreright1.png").getImage(),
+            new ImageIcon("images/Ogreright2.png").getImage()}, 1, true), 
 
     CLYDE_NORMAL_LEFT(new Image[]{
             new ImageIcon("images/clyde v3.png").getImage(),
