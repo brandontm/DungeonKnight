@@ -813,13 +813,13 @@ public class Board extends JPanel implements ActionListener {
                 screenData[i] = levelData2[i];
             }
 
-            inGame = false;
+            
         }
         if (levelnum > 3) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
                 screenData[i] = levelDataFinal[i];
             }
-                         
+             inGame = false;            
         }      
         continueLevel();
     }
