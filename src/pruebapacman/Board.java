@@ -799,7 +799,7 @@ public class Board extends JPanel implements ActionListener {
         int i;
         if (levelnum == 1) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
-                screenData[i] = levelDataFinal[i];
+                screenData[i] = levelData[i];
             }
         }
         if (levelnum == 2) {
