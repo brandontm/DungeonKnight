@@ -74,7 +74,7 @@ public class Board extends JPanel implements ActionListener {
     private Mago mago;
     private int acumPointsEat = 0;
     private int whatEatGhost = -1;
-    private int levelnum = 4;
+    private int levelnum = 1;
 /////    private Image ghost; //imagen png del fantasma
 ////    private Image clydeGhost;
 ////    private Image blinkyGhost;
@@ -929,7 +929,7 @@ public class Board extends JPanel implements ActionListener {
                 }
             } else {
                 if(levelnum > 3) return;
-                
+
                 if (key == 's' || key == 'S') {
                     Sound.INTRO.play();
                     inGame = true;
