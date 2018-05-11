@@ -11,7 +11,7 @@ public class Principal extends JFrame {
 
         setTitle("Dungeon Knight");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(365, 420);
+        setSize(380, 430);
         setLocationRelativeTo(null);
         setVisible(true);
     }
