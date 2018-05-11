@@ -65,12 +65,13 @@ public class Board extends JPanel implements ActionListener {
     //private int pacmanAnimPoints = 0;
     //private int ghostsAnimPos = 0; // Para animar los fantasmas
 
-    private int N_GHOSTS = 2;
+    private int N_GHOSTS = 3;
     private int score;
     private int[] dx, dy;
     private jugador jugador;
     private ArrayList <Fantasma> fantasmas = new ArrayList<>(); // array list para crear los objetos Fantasma
     private Mago mago;
+    private Ogro ogro;
     private int acumPointsEat = 0;
     private int whatEatGhost = -1;
     private int levelnum = 1;
@@ -242,6 +243,7 @@ public class Board extends JPanel implements ActionListener {
         //region Inicializar Pacman
         jugador = new jugador(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT), this, "Pacman");
         mago= new Mago(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT),this, "Mago");
+        ogro= new Ogro(new Animation(AnimationEnum.OGRO_NORMAL_RIGHT),this, "Ogro");
         //endregion
 
         //region Inicializar fantasmas
@@ -260,10 +262,9 @@ public class Board extends JPanel implements ActionListener {
 //        }
 
         // aquí se agregan los objetos fantasma al array list
-        fantasmas.add(new Fantasma(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT),this,"Mago1"));
-        fantasmas.add(new Fantasma(new Animation(AnimationEnum.MAGO_NORMAL_LEFT),this,"Mago2"));
-        
-        
+        fantasmas.add(new Fantasma(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT),this,"Mago1"));       
+        fantasmas.add(new Fantasma(new Animation(AnimationEnum.OGRO_NORMAL_RIGHT),this,"Ogro1"));
+        fantasmas.add(new Fantasma(new Animation(AnimationEnum.OGRO_NORMAL_LEFT),this,"Ogro2"));
         //endregion
 
 
@@ -278,7 +279,7 @@ public class Board extends JPanel implements ActionListener {
         dx = new int[4];
         dy = new int[4];
 
-        timer = new Timer(40, this);
+        timer = new Timer(60, this);
         timer.start();
     }
 
@@ -420,7 +421,7 @@ public class Board extends JPanel implements ActionListener {
         int currentDirX = -1;
         fantasmas.get(0).update();
         fantasmas.get(1).update();
-//        fantasmas.get(2).update();
+        fantasmas.get(2).update();
 //        fantasmas.get(3).update();
 
         for (i = 0; i < N_GHOSTS; i++) {
@@ -525,11 +526,11 @@ public class Board extends JPanel implements ActionListener {
                             fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.MAGO_NORMAL_LEFT));
                             break;
                         case 1:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.MAGO_NORMAL_LEFT));
+                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.OGRO_NORMAL_LEFT));
                             break;
-//                        case 2:
-//                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.INKY_NORMAL_LEFT));
-//                            break;
+                        case 2:
+                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.OGRO_NORMAL_LEFT));
+                            break;
 //                        case 3:
 //                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.PINKY_NORMAL_LEFT));
 //                            break;
@@ -541,12 +542,12 @@ public class Board extends JPanel implements ActionListener {
                         case 0:
                             fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT));
                             break;
-                        case 1:
-                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.MAGO_NORMAL_RIGHT));
+                         case 1:
+                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.OGRO_NORMAL_RIGHT));
                             break;
-//                        case 2:
-//                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.INKY_NORMAL_RIGHT));
-//                            break;
+                        case 2:
+                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.OGRO_NORMAL_RIGHT));
+                            break;
 //                        case 3:
 //                            fantasmas.get(i).setCurrentAnimation(new Animation(AnimationEnum.PINKY_NORMAL_RIGHT));
 //                            break;
@@ -766,10 +767,12 @@ public class Board extends JPanel implements ActionListener {
         jugador.setHealth(20);
         score = 0;
         initLevel();
-        N_GHOSTS = 2;
+        N_GHOSTS = 3;
         currentSpeed = 3;
     }
-    private void drawFinal(Graphics2D g2d) { 
+    private void drawFinal(Graphics2D g2d) {
+        initLevel();
+        if(levelnum>3){
         g2d.setColor(new Color(0, 32, 48));
         g2d.fillRect(50, SCREEN_SIZE / 2 - 30, SCREEN_SIZE - 100, 50);
         g2d.setColor(Color.LIGHT_GRAY);
@@ -783,7 +786,7 @@ public class Board extends JPanel implements ActionListener {
         g2d.setColor(Color.LIGHT_GRAY);
         String S= "Gracias por jugar";
         g2d.drawString(S, (SCREEN_SIZE - metr.stringWidth(S)) / 2, SCREEN_SIZE / 2 + 10);
-        }
+        }}
     private void initLevel() {
 
         int i;
@@ -807,6 +810,8 @@ public class Board extends JPanel implements ActionListener {
         if (levelnum > 3) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
             screenData[i] = levelDataFinal[i];
+            
+            
             }
                          
         }      
