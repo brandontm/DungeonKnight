@@ -419,8 +419,11 @@ public class Board extends JPanel implements ActionListener {
         jugador.setHealth(jugador.getHealth() - 5);
         jugador.setCurrentAnimation(new Animation(AnimationEnum.PACMAN_NORMAL_LEFT));
         if (jugador.getHealth() == 0) {
+            
             inGame = false;
+            levelnum=1;
             Sound.FONDO.stop();
+            
         }
 
         continueLevel();
