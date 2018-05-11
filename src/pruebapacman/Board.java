@@ -56,6 +56,7 @@ public class Board extends JPanel implements ActionListener {
     private boolean dirChanged = false;
     private final int POINTS_EAT_GHOST = 200;
     private boolean dotsEaten = true;
+    int hadasAlive = 5;
 
     //private int pacAnimCount = PAC_ANIM_DELAY;
     //private int ghostsAnimCount = GHOSTS_ANIM_COUNT;
@@ -375,7 +376,8 @@ public class Board extends JPanel implements ActionListener {
 
         short i = 0;
         dotsEaten = true;
-        boolean hadasEaten = true;
+        hadasAlive = 0;
+
 
         while (i < N_BLOCKS * N_BLOCKS && dotsEaten) {
 
@@ -386,19 +388,7 @@ public class Board extends JPanel implements ActionListener {
             i++;
         }
 
-        i = 0;
-        while (i < N_BLOCKS * N_BLOCKS && hadasEaten) {
-
-            if ((screenData[i] & 32) != 0) {
-                hadasEaten = false;
-            }
-
-            i++;
-        }
-
-        if (hadasEaten) {
-
-            score += 50;
+        if (score >= 300) {
 
             if (N_GHOSTS < MAX_GHOSTS) {
                 N_GHOSTS++;
@@ -497,6 +487,11 @@ public class Board extends JPanel implements ActionListener {
                         dx[count] = 0;
                         dy[count] = 1;
                         count++;
+                    }
+
+                    if ((screenData[pos] & 32) != 0 && dotsEaten && i == 0) {
+                        screenData[pos] = (short) (screenData[pos] & 15);
+                        Sound.HADA.play();
                     }
                 }
 
@@ -643,7 +638,6 @@ public class Board extends JPanel implements ActionListener {
 
             if ((ch & 16) != 0) {
                 screenData[pos] = (short) (ch & 15);
-                score++;
 //                Sound.PACMAN_MUNCH.play();
             }
             // si se come una hada y ya se comió todas las bolitas
@@ -804,6 +798,7 @@ public class Board extends JPanel implements ActionListener {
         }}
     private void initLevel() {
 
+        score = 0;
         int i;
         if (levelnum == 1) {
             for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
